@@ -1,6 +1,6 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <sensor_msgs/PointCloud2.h>
-#include "livox_ros_driver/CustomMsg.h"
+#include "livox_ros_driver2/CustomMsg.h"
 
 typedef pcl::PointXYZINormal PointType;
 typedef pcl::PointCloud<PointType> PointCloudXYZI;
@@ -8,8 +8,8 @@ typedef pcl::PointCloud<PointType> PointCloudXYZI;
 ros::Publisher pub_pcl_out0, pub_pcl_out1;
 uint64_t TO_MERGE_CNT = 1; 
 constexpr bool b_dbg_line = false;
-std::vector<livox_ros_driver::CustomMsgConstPtr> livox_data;
-void LivoxMsgCbk1(const livox_ros_driver::CustomMsgConstPtr& livox_msg_in) {
+std::vector<livox_ros_driver2::CustomMsgConstPtr> livox_data;
+void LivoxMsgCbk1(const livox_ros_driver2::CustomMsgConstPtr& livox_msg_in) {
   livox_data.push_back(livox_msg_in);
   if (livox_data.size() < TO_MERGE_CNT) return;
 
@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 
   ROS_INFO("start livox_repub");
 
-  ros::Subscriber sub_livox_msg1 = nh.subscribe<livox_ros_driver::CustomMsg>(
+  ros::Subscriber sub_livox_msg1 = nh.subscribe<livox_ros_driver2::CustomMsg>(
       "/livox/lidar", 100, LivoxMsgCbk1);
   pub_pcl_out1 = nh.advertise<sensor_msgs::PointCloud2>("/livox_pcl0", 100);
 
